@@ -23,57 +23,58 @@ jobs:
         uses: ./
       - name: 🚀 Check run output
         run: |
-          if [[ "${{ steps.information.output.aarch64 }}" != "true" ]]; then
+          if [[ "${{ steps.information.outputs.aarch64 }}" != "true" ]]; then
             echo "::error ::'aarch64' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.amd64 }}" != "true" ]]; then
+          if [[ "${{ steps.information.outputs.amd64 }}" != "true" ]]; then
             echo "::error ::'amd64' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.architectures }}" != "[\"aarch64\",\"amd64\",\"armhf\",\"armv7\",\"i386\"]" ]]; then
+          archs="[\"aarch64\",\"amd64\",\"armhf\",\"armv7\",\"i386\"]"
+          if [[ "${{ steps.information.outputs.architectures }}" != "${archs}" ]]; then
             echo "::error ::'architectures' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.armhf }}" != "true" ]]; then
+          if [[ "${{ steps.information.outputs.armhf }}" != "true" ]]; then
             echo "::error ::'armhf' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.build }}" != "test/build.json" ]]; then
+          if [[ "${{ steps.information.outputs.build }}" != "test/build.json" ]]; then
             echo "::error ::'build' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.config }}" != "test/config.json" ]]; then
+          if [[ "${{ steps.information.outputs.config }}" != "test/config.json" ]]; then
             echo "::error ::'config' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.description }}" != "This is a test add-on" ]]; then
+          if [[ "${{ steps.information.outputs.description }}" != "This is a test add-on" ]]; then
             echo "::error ::'description' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.i386 }}" != "true" ]]; then
+          if [[ "${{ steps.information.outputs.i386 }}" != "true" ]]; then
             echo "::error ::'i386' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.name }}" != "Test Add-on" ]]; then
+          if [[ "${{ steps.information.outputs.name }}" != "Test Add-on" ]]; then
             echo "::error ::'name' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.slug }}" != "test" ]]; then
+          if [[ "${{ steps.information.outputs.slug }}" != "test" ]]; then
             echo "::error ::'slug' does not have the expected value"
             exit 1;
           fi
 
-          if [[ "${{ steps.information.output.target }}" != "test" ]]; then
+          if [[ "${{ steps.information.outputs.target }}" != "test" ]]; then
             echo "::error ::'target' does not have the expected value"
             exit 1;
           fi
