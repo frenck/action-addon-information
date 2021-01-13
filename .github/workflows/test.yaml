@@ -33,7 +33,7 @@ jobs:
             exit 1;
           fi
 
-          archs="[\"aarch64\",\"amd64\",\"armhf\",\"armv7\",\"i386\"]"
+          archs="["aarch64","amd64","armhf","armv7","i386"]"
           if [[ "${{ steps.information.outputs.architectures }}" != "${archs}" ]]; then
             echo "::error ::'architectures' does not have the expected value"
             exit 1;
