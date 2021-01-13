@@ -110,5 +110,5 @@ runs:
           i386;
         do
           available=$(jq --raw-output "(.arch | index(\"${architecture}\") // false) != false" "${{ steps.find.outputs.config }}")
-          echo "::set-ouput name=${architecture}::${available}"
+          echo "::set-output name=${architecture}::${available}"
         done
