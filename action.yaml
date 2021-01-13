@@ -87,7 +87,7 @@ runs:
       id: basic
       run: |
         name=$(jq --raw-output '.slug' "${{ steps.find.outputs.config }}")
-        echo "::set-output name=name::${slug}"
+        echo "::set-output name=slug::${slug}"
 
         name=$(jq --raw-output '.name' "${{ steps.find.outputs.config }}")
         echo "::set-output name=name::${name}"
