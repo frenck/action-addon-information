@@ -1,0 +1,114 @@
+---
+name: "Frenck's Home Assistant Add-on Information"
+description: >-
+  🚀 Frenck's GitHub Action for gathering information from an Home Assistant
+  Add-on.
+author: frenck
+branding:
+  color: red
+  icon: thumbs-up
+
+inputs:
+  path:
+    description: Path to the add-on configuration (where config.json is)
+    required: false
+outputs:
+  aarch64:
+    description: Returns if the add-on supports the aarch64 architecture
+    value: ${{ steps.architectures.outputs.aarch64 }}
+  amd64:
+    description: Returns if the add-on supports the amd64 architecture
+    value: ${{ steps.architectures.outputs.amd64 }}
+  architectures:
+    description: Returns the list of supported architectures by this add-on
+    value: ${{ steps.architectures.outputs.architectures }}
+  armhf:
+    description: Returns if the add-on supports the armhf architecture
+    value: ${{ steps.architectures.outputs.armhf }}
+  build:
+    description: File location of the build.json configuration file
+    value: ${{ steps.find.outputs.build }}
+  config:
+    description: File location of the add-on config.json configuration
+    value: ${{ steps.find.outputs.config }}
+  description:
+    description: Description of the add-on
+    value: ${{ steps.basic.outputs.description }}
+  i386:
+    description: Returns if the add-on supports the i386 architecture
+    value: ${{ steps.architectures.outputs.i386 }}
+  name:
+    description: Return the name of the add-on
+    value: ${{ steps.basic.outputs.name }}
+  slug:
+    description: Returns if the configured add-on slug
+    value: ${{ steps.basic.outputs.slug }}
+  target:
+    description: Returns the add-on target folder name
+    value: ${{ steps.find.outputs.target }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🕵️ Find the add-on
+      shell: bash
+      id: find
+      run: |
+        if [[ -n "${{ inputs.path }}" ]]; then
+          path="${{ inputs.path }}"
+          path="${config%/}"
+          config="${path}/config.json"
+
+          if [[ ! -f "${config}" ]]; then
+            echo "::error ::Could not find add-on configuration file in ${path}"
+            exit 1
+          fi
+        else
+          if ! find ./ -mindepth 2 -maxdepth 2 -name "config.json" | grep --silent .; then
+            echo "::error ::Could not find add-on configuration file"
+            exit 1
+          fi
+
+          config=$(find ./ -mindepth 2 -maxdepth 2 -name "config.json" -printf '%P\n')
+        fi
+
+        echo "::set-output name=config::${config}"
+
+        target=$(dirname "${config}")
+        echo "::set-output name=target::${target}"
+
+        if [[ ! -f "${target}/build.json" ]]; then
+          echo "::error ::Could not find add-on build file"
+          exit 1
+        fi
+        echo "::set-output name=build::${target}/build.json"
+    - name: ℹ️ Extract basic add-on information
+      shell: bash
+      id: basic
+      run: |
+        name=$(jq --raw-output '.slug' "${{ steps.find.outputs.config }}")
+        echo "::set-output name=name::${slug}"
+
+        name=$(jq --raw-output '.name' "${{ steps.find.outputs.config }}")
+        echo "::set-output name=name::${name}"
+
+        description=$(jq --raw-output '.description' "${{ steps.find.outputs.config }}")
+        echo "::set-output name=description::${description}"
+
+    - name: ℹ️ Extract add-on architecture information
+      shell: bash
+      id: architectures
+      run: |
+        architectures=$(jq --raw-output --compact-output '.arch | sort' "${{ steps.find.outputs.config }}")
+        echo "::set-output name=architectures::${architectures}"
+
+        for architecture in \
+          aarch64 \
+          amd64 \
+          armhf \
+          armv7 \
+          i386;
+        do
+          available=$(jq --raw-output "(.arch | index(\"${architecture}\") // false) != false" "${{ steps.find.outputs.config }}")
+          echo "::set-ouput name=${architecture}::${available}"
+        done

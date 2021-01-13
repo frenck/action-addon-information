@@ -1,0 +1,12 @@
+{
+  "name": "Test Add-on",
+  "version": "dev",
+  "slug": "test",
+  "description": "This is a test add-on",
+  "url": "https://github.com/frenck/action-addon-information",
+  "arch": ["aarch64", "amd64", "armhf", "armv7", "i386"],
+  "options": {},
+  "schema": {},
+  "boot": "auto",
+  "startup": "application"
+}
