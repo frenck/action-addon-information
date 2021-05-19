@@ -75,6 +75,7 @@ The Action provides the following information as output:
 |     `name`      |                  The name of the add-on.                  |
 |     `slug`      |                The configured add-on slug.                |
 |    `target`     |                 The add-on target folder.                 |
+|     `image`     |             The Image-template of the add-on.             |
 
 ## Changelog & Releases
 
