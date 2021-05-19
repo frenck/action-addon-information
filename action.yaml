@@ -46,6 +46,9 @@ outputs:
   target:
     description: Returns the add-on target folder name
     value: ${{ steps.find.outputs.target }}
+  image:
+    description: Image-template of the addon
+    value: ${{ steps.find.outputs.basic.image }}
 
 runs:
   using: "composite"
@@ -94,6 +97,9 @@ runs:
 
         description=$(jq --raw-output '.description' "${{ steps.find.outputs.config }}")
         echo "::set-output name=description::${description}"
+
+        image=$(jq --raw-output '.image' "${{ steps.find.outputs.config }}")
+        echo "::set-output name=image::${image}"
 
     - name: ℹ️ Extract add-on architecture information
       shell: bash
