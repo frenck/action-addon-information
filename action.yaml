@@ -98,7 +98,7 @@ runs:
         description=$(jq --raw-output '.description' "${{ steps.find.outputs.config }}")
         echo "::set-output name=description::${description}"
 
-        image=$(jq --raw-output '.image' "${{ steps.find.outputs.config }}")
+        image=$(jq --raw-output '.image // empty' "${{ steps.find.outputs.config }}")
         echo "::set-output name=image::${image}"
 
     - name: ℹ️ Extract add-on architecture information
