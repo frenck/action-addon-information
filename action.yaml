@@ -47,7 +47,7 @@ outputs:
     description: Returns the add-on target folder name
     value: ${{ steps.find.outputs.target }}
   image:
-    description: Image-template of the addon
+    description: Image-template of the add-on
     value: ${{ steps.find.outputs.basic.image }}
 
 runs:
