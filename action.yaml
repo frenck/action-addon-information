@@ -49,6 +49,9 @@ outputs:
   image:
     description: Image-template of the add-on
     value: ${{ steps.find.outputs.basic.image }}
+  version:
+    description: Returns the version of the add-on
+    value: ${{ steps.find.outputs.basic.version }}
 
 runs:
   using: "composite"
@@ -100,6 +103,9 @@ runs:
 
         image=$(jq --raw-output '.image // empty' "${{ steps.find.outputs.config }}")
         echo "::set-output name=image::${image}"
+
+        version=$(jq --raw-output '.version' "${{ steps.find.outputs.config }}")
+        echo "::set-output name=version::${version}"
 
     - name: ℹ️ Extract add-on architecture information
       shell: bash
