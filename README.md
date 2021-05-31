@@ -77,6 +77,7 @@ The Action provides the following information as output:
 |    `target`     |                 The add-on target folder.                 |
 |     `image`     |             The Image-template of the add-on.             |
 |    `version`    |                The version of the add-on.                 |
+|     `armv7`     |  Boolean if the add-on support the `armv7` architecture.  |
 
 ## Changelog & Releases
 

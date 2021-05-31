@@ -52,6 +52,9 @@ outputs:
   version:
     description: Returns the version of the add-on
     value: ${{ steps.basic.outputs.version }}
+  armv7:
+    description: Returns if the add-on supports the armv7 architecture
+    value: ${{ steps.architectures.outputs.armv7 }}
 
 runs:
   using: "composite"
