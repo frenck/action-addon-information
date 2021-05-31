@@ -48,10 +48,10 @@ outputs:
     value: ${{ steps.find.outputs.target }}
   image:
     description: Image-template of the add-on
-    value: ${{ steps.find.outputs.basic.image }}
+    value: ${{ steps.basic.outputs.image }}
   version:
     description: Returns the version of the add-on
-    value: ${{ steps.find.outputs.basic.version }}
+    value: ${{ steps.basic.outputs.version }}
 
 runs:
   using: "composite"
