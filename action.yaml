@@ -134,7 +134,7 @@ runs:
       id: architectures
       run: |
         architectures=$(
-          yq --no-colors eval '.arch' "${{ steps.find.outputs.config }}" \
+          yq --no-colors --output-format json  eval '.arch' "${{ steps.find.outputs.config }}" \
             | jq --raw-output --compact-output '. | sort'
         )
         echo "::set-output name=architectures::${architectures}"
@@ -147,8 +147,9 @@ runs:
           i386;
         do
           available=$(
-            yq --no-colors yq --no-colors eval ".arch[] \
-              | select(. == \"${architecture}\") | . or false" "${{ steps.find.outputs.config }}"
+            yq --no-colors eval \
+              ".arch[] | select(. == \"${architecture}\") | . or false" \
+              "${{ steps.find.outputs.config }}"
           )
           echo "::set-output name=${architecture}::${available}"
         done
