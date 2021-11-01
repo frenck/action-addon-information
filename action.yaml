@@ -100,12 +100,12 @@ runs:
         echo "::set-output name=target::${target}"
 
         for config_ext in json yaml yml; do
-          if [[ -f "${path}/build.${config_ext}" ]]; then
-            build="${path}/build.${config_ext}"
+          if [[ -f "${target}/build.${config_ext}" ]]; then
+            build="${target}/build.${config_ext}"
           fi
         done
 
-          if [[ -z "${build+x}" ]]; then
+        if [[ -z "${build+x}" ]]; then
           echo "::error ::Could not find add-on build file"
           exit 1
         fi
