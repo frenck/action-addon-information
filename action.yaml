@@ -66,19 +66,32 @@ runs:
         if [[ -n "${{ inputs.path }}" ]]; then
           path="${{ inputs.path }}"
           path="${path%/}"
-          config="${path}/config.json"
 
-          if [[ ! -f "${config}" ]]; then
+          for config_ext in json yaml yml; do
+            if [[ -f "${path}/config.${config_ext}" ]]; then
+              config="${path}/config.${config_ext}"
+            fi
+          done
+
+          if [[ -z "${config+x}" ]]; then
             echo "::error ::Could not find add-on configuration file in ${path}"
             exit 1
           fi
         else
-          if ! find ./ -mindepth 2 -maxdepth 2 -name "config.json" | grep --silent .; then
+          if ! find \
+            ./ -mindepth 2 -maxdepth 2 \
+            -regex ".*\config\.\(json\|yaml\|yml\)$" \
+            | head -1 | grep --silent .;
+          then
             echo "::error ::Could not find add-on configuration file"
             exit 1
           fi
 
-          config=$(find ./ -mindepth 2 -maxdepth 2 -name "config.json" -printf '%P\n')
+          config=$(
+            find ./ -mindepth 2 -maxdepth 2 \
+            -regex ".*\config\.\(json\|yaml\|yml\)$" -printf '%P\n' \
+            | head -1
+          )
         fi
 
         echo "::set-output name=config::${config}"
@@ -86,35 +99,44 @@ runs:
         target=$(dirname "${config}")
         echo "::set-output name=target::${target}"
 
-        if [[ ! -f "${target}/build.json" ]]; then
+        for config_ext in json yaml yml; do
+          if [[ -f "${target}/build.${config_ext}" ]]; then
+            build="${target}/build.${config_ext}"
+          fi
+        done
+
+        if [[ -z "${build+x}" ]]; then
           echo "::error ::Could not find add-on build file"
           exit 1
         fi
-        echo "::set-output name=build::${target}/build.json"
+        echo "::set-output name=build::${build}"
     - name: ℹ️ Extract basic add-on information
       shell: bash
       id: basic
       run: |
-        slug=$(jq --raw-output '.slug' "${{ steps.find.outputs.config }}")
+        slug=$(yq --no-colors eval '.slug' "${{ steps.find.outputs.config }}")
         echo "::set-output name=slug::${slug}"
 
-        name=$(jq --raw-output '.name' "${{ steps.find.outputs.config }}")
+        name=$(yq --no-colors eval '.name' "${{ steps.find.outputs.config }}")
         echo "::set-output name=name::${name}"
 
-        description=$(jq --raw-output '.description' "${{ steps.find.outputs.config }}")
+        description=$(yq --no-colors eval '.description' "${{ steps.find.outputs.config }}")
         echo "::set-output name=description::${description}"
 
-        image=$(jq --raw-output '.image // empty' "${{ steps.find.outputs.config }}")
+        image=$(yq --no-colors eval '.image // ""' "${{ steps.find.outputs.config }}")
         echo "::set-output name=image::${image}"
 
-        version=$(jq --raw-output '.version' "${{ steps.find.outputs.config }}")
+        version=$(yq --no-colors eval '.version' "${{ steps.find.outputs.config }}")
         echo "::set-output name=version::${version}"
 
     - name: ℹ️ Extract add-on architecture information
       shell: bash
       id: architectures
       run: |
-        architectures=$(jq --raw-output --compact-output '.arch | sort' "${{ steps.find.outputs.config }}")
+        architectures=$(
+          yq --no-colors --output-format json  eval '.arch' "${{ steps.find.outputs.config }}" \
+            | jq --raw-output --compact-output '. | sort'
+        )
         echo "::set-output name=architectures::${architectures}"
 
         for architecture in \
@@ -124,6 +146,10 @@ runs:
           armv7 \
           i386;
         do
-          available=$(jq --raw-output "(.arch | index(\"${architecture}\") // false) != false" "${{ steps.find.outputs.config }}")
+          available=$(
+            yq --no-colors eval \
+              ".arch[] | select(. == \"${architecture}\") | . or false" \
+              "${{ steps.find.outputs.config }}"
+          )
           echo "::set-output name=${architecture}::${available}"
         done

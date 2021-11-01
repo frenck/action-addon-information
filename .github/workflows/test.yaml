@@ -49,7 +49,7 @@ jobs:
             exit 1;
           fi
 
-          if [[ "${{ steps.information.outputs.config }}" != "test/config.json" ]]; then
+          if [[ "${{ steps.information.outputs.config }}" != "test/config.yaml" ]]; then
             echo "::error ::'config' does not have the expected value"
             exit 1;
           fi
