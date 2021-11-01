@@ -78,12 +78,20 @@ runs:
             exit 1
           fi
         else
-          if ! find ./ -mindepth 2 -maxdepth 2 -regex ".*\config\.\(json\|yaml\|yml\)$" | head -1 | grep --silent .; then
+          if ! find \
+            ./ -mindepth 2 -maxdepth 2 \
+            -regex ".*\config\.\(json\|yaml\|yml\)$" \
+            | head -1 | grep --silent .;
+          then
             echo "::error ::Could not find add-on configuration file"
             exit 1
           fi
 
-          config=$(find ./ -mindepth 2 -maxdepth 2 -regex ".*\config\.\(json\|yaml\|yml\)$" -printf '%P\n' | head -1)
+          config=$(
+            find ./ -mindepth 2 -maxdepth 2 \
+            -regex ".*\config\.\(json\|yaml\|yml\)$" -printf '%P\n' \
+            | head -1
+          )
         fi
 
         echo "::set-output name=config::${config}"
@@ -125,7 +133,10 @@ runs:
       shell: bash
       id: architectures
       run: |
-        architectures=$(yq --no-colors eval '.arch' "${{ steps.find.outputs.config }}" | jq --raw-output --compact-output '. | sort')
+        architectures=$(
+          yq --no-colors eval '.arch' "${{ steps.find.outputs.config }}" \
+            | jq --raw-output --compact-output '. | sort'
+        )
         echo "::set-output name=architectures::${architectures}"
 
         for architecture in \
@@ -135,6 +146,9 @@ runs:
           armv7 \
           i386;
         do
-          available=$(yq --no-colors yq --no-colors eval ".arch[] | select(. == \"${architecture}\") | . or false" "${{ steps.find.outputs.config }}")
+          available=$(
+            yq --no-colors yq --no-colors eval ".arch[] \
+              | select(. == \"${architecture}\") | . or false" "${{ steps.find.outputs.config }}"
+          )
           echo "::set-output name=${architecture}::${available}"
         done
