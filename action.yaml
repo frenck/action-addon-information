@@ -71,7 +71,7 @@ runs:
             if [[ -f "${path}/config.${config_ext}" ]]; then
               config="${path}/config.${config_ext}"
             fi
-          done 
+          done
 
           if [[ -z "${config+x}" ]]; then
             echo "::error ::Could not find add-on configuration file in ${path}"
