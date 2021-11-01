@@ -123,7 +123,7 @@ runs:
         description=$(yq --no-colors eval '.description' "${{ steps.find.outputs.config }}")
         echo "::set-output name=description::${description}"
 
-        image=$(yq --no-colors eval '.image // empty' "${{ steps.find.outputs.config }}")
+        image=$(yq --no-colors eval '.image // ""' "${{ steps.find.outputs.config }}")
         echo "::set-output name=image::${image}"
 
         version=$(yq --no-colors eval '.version' "${{ steps.find.outputs.config }}")
