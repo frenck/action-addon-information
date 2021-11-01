@@ -4,7 +4,6 @@ slug: test
 description: This is a test add-on
 url: https://github.com/frenck/action-addon-information
 arch:
-  - test
   - aarch64
   - amd64
   - armhf
