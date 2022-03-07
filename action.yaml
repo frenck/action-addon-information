@@ -28,6 +28,12 @@ outputs:
   build:
     description: File location of the build.json configuration file
     value: ${{ steps.find.outputs.build }}
+  codenotary_base_image:
+    description: Verify the base container image
+    value: ${{ steps.basic.outputs.codenotary_base_image }}
+  codenotary_signer:
+    description: Owner signer E-Mail address for this image
+    value: ${{ steps.basic.outputs.codenotary_signer }}
   config:
     description: File location of the add-on config.json configuration
     value: ${{ steps.find.outputs.config }}
@@ -128,6 +134,16 @@ runs:
 
         version=$(yq --no-colors eval '.version' "${{ steps.find.outputs.config }}")
         echo "::set-output name=version::${version}"
+
+        codenotary_signer=$(
+          yq --no-colors eval '.codenotary.signer' "${{ steps.find.outputs.build }}"
+        )
+        echo "::set-output name=codenotary_signer::${codenotary_signer}"
+
+        codenotary_base_image=$(
+          yq --no-colors eval '.codenotary.base_image' "${{ steps.find.outputs.build }}"
+        )
+        echo "::set-output name=codenotary_base_image::${codenotary_base_image}"
 
     - name: ℹ️ Extract add-on architecture information
       shell: bash
