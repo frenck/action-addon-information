@@ -30,7 +30,7 @@ jobs:
       architectures: ${{ steps.information.outputs.architectures }}
     steps:
       - name: ⤵️ Check out code from GitHub
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: 🚀 Run add-on information
         id: information
         uses: frenck/action-addon-information@v1
@@ -166,7 +166,7 @@ Thank you for being involved! :heart_eyes:
 The original setup of this repository is by [Franck Nijhof][frenck].
 
 For a full list of all authors and contributors,
-check [the contributor's page][contributors].
+check [the contributors page][contributors].
 
 ## License
 
