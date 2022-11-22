@@ -100,10 +100,10 @@ runs:
           )
         fi
 
-        echo "::set-output name=config::${config}"
+        echo "config=${config}" >> "$GITHUB_OUTPUT"
 
         target=$(dirname "${config}")
-        echo "::set-output name=target::${target}"
+        echo "target=${target}" >> "$GITHUB_OUTPUT"
 
         for config_ext in json yaml yml; do
           if [[ -f "${target}/build.${config_ext}" ]]; then
@@ -115,35 +115,35 @@ runs:
           echo "::error ::Could not find add-on build file"
           exit 1
         fi
-        echo "::set-output name=build::${build}"
+        echo "build=${build}" >> "$GITHUB_OUTPUT"
     - name: ℹ️ Extract basic add-on information
       shell: bash
       id: basic
       run: |
         slug=$(yq --no-colors eval '.slug' "${{ steps.find.outputs.config }}")
-        echo "::set-output name=slug::${slug}"
+        echo "slug=${slug}" >> "$GITHUB_OUTPUT"
 
         name=$(yq --no-colors eval '.name' "${{ steps.find.outputs.config }}")
-        echo "::set-output name=name::${name}"
+        echo "name=${name}" >> "$GITHUB_OUTPUT"
 
         description=$(yq --no-colors eval '.description' "${{ steps.find.outputs.config }}")
-        echo "::set-output name=description::${description}"
+        echo "description=${description}" >> "$GITHUB_OUTPUT"
 
         image=$(yq --no-colors eval '.image // ""' "${{ steps.find.outputs.config }}")
-        echo "::set-output name=image::${image}"
+        echo "image=${image}" >> "$GITHUB_OUTPUT"
 
         version=$(yq --no-colors eval '.version' "${{ steps.find.outputs.config }}")
-        echo "::set-output name=version::${version}"
+        echo "version=${version}" >> "$GITHUB_OUTPUT"
 
         codenotary_signer=$(
           yq --no-colors eval '.codenotary.signer' "${{ steps.find.outputs.build }}"
         )
-        echo "::set-output name=codenotary_signer::${codenotary_signer}"
+        echo "codenotary_signer=${codenotary_signer}" >> "$GITHUB_OUTPUT"
 
         codenotary_base_image=$(
           yq --no-colors eval '.codenotary.base_image' "${{ steps.find.outputs.build }}"
         )
-        echo "::set-output name=codenotary_base_image::${codenotary_base_image}"
+        echo "codenotary_base_image=${codenotary_base_image}" >> "$GITHUB_OUTPUT"
 
     - name: ℹ️ Extract add-on architecture information
       shell: bash
@@ -153,7 +153,7 @@ runs:
           yq --no-colors --output-format json  eval '.arch' "${{ steps.find.outputs.config }}" \
             | jq --raw-output --compact-output '. | sort'
         )
-        echo "::set-output name=architectures::${architectures}"
+        echo "architectures=${architectures}" >> "$GITHUB_OUTPUT"
 
         for architecture in \
           aarch64 \
@@ -167,5 +167,5 @@ runs:
               ".arch[] | select(. == \"${architecture}\") | . or false" \
               "${{ steps.find.outputs.config }}"
           )
-          echo "::set-output name=${architecture}::${available}"
+          echo "${architecture}=${available}" >> "$GITHUB_OUTPUT"
         done
