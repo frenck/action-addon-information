@@ -22,9 +22,6 @@ outputs:
   architectures:
     description: Returns the list of supported architectures by this add-on
     value: ${{ steps.architectures.outputs.architectures }}
-  armhf:
-    description: Returns if the add-on supports the armhf architecture
-    value: ${{ steps.architectures.outputs.armhf }}
   build:
     description: File location of the build.json configuration file
     value: ${{ steps.find.outputs.build }}
@@ -40,9 +37,6 @@ outputs:
   description:
     description: Description of the add-on
     value: ${{ steps.basic.outputs.description }}
-  i386:
-    description: Returns if the add-on supports the i386 architecture
-    value: ${{ steps.architectures.outputs.i386 }}
   name:
     description: Return the name of the add-on
     value: ${{ steps.basic.outputs.name }}
@@ -58,9 +52,6 @@ outputs:
   version:
     description: Returns the version of the add-on
     value: ${{ steps.basic.outputs.version }}
-  armv7:
-    description: Returns if the add-on supports the armv7 architecture
-    value: ${{ steps.architectures.outputs.armv7 }}
 
 runs:
   using: "composite"
@@ -157,10 +148,7 @@ runs:
 
         for architecture in \
           aarch64 \
-          amd64 \
-          armhf \
-          armv7 \
-          i386;
+          amd64;
         do
           available=$(
             yq --no-colors eval \
