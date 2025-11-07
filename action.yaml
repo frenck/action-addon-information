@@ -28,12 +28,6 @@ outputs:
   build:
     description: File location of the build.json configuration file
     value: ${{ steps.find.outputs.build }}
-  codenotary_base_image:
-    description: Verify the base container image
-    value: ${{ steps.basic.outputs.codenotary_base_image }}
-  codenotary_signer:
-    description: Owner signer E-Mail address for this image
-    value: ${{ steps.basic.outputs.codenotary_signer }}
   config:
     description: File location of the add-on config.json configuration
     value: ${{ steps.find.outputs.config }}
@@ -111,11 +105,10 @@ runs:
           fi
         done
 
-        if [[ -z "${build+x}" ]]; then
-          echo "::error ::Could not find add-on build file"
-          exit 1
+        if [[ -n "${build+x}" ]]; then
+          echo "build=${build}" >> "$GITHUB_OUTPUT"
         fi
-        echo "build=${build}" >> "$GITHUB_OUTPUT"
+
     - name: ℹ️ Extract basic add-on information
       shell: bash
       id: basic
@@ -134,16 +127,6 @@ runs:
 
         version=$(yq --no-colors eval '.version' "${{ steps.find.outputs.config }}")
         echo "version=${version}" >> "$GITHUB_OUTPUT"
-
-        codenotary_signer=$(
-          yq --no-colors eval '.codenotary.signer' "${{ steps.find.outputs.build }}"
-        )
-        echo "codenotary_signer=${codenotary_signer}" >> "$GITHUB_OUTPUT"
-
-        codenotary_base_image=$(
-          yq --no-colors eval '.codenotary.base_image' "${{ steps.find.outputs.build }}"
-        )
-        echo "codenotary_base_image=${codenotary_base_image}" >> "$GITHUB_OUTPUT"
 
     - name: ℹ️ Extract add-on architecture information
       shell: bash
