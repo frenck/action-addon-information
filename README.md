@@ -10,6 +10,11 @@
 🚀 Frenck's GitHub Action for gathering information from an Home Assistant
 Add-on.
 
+## Fork
+
+This fork disables the presence check for a 'build.yaml' or 'build.json' file,
+as this is not necessarily needed.
+
 ## About
 
 This GitHub Action is able to extract information from a Home Assistant Add-on,
