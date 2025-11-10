@@ -62,22 +62,22 @@ you'd like to get information from.
 
 The Action provides the following information as output:
 
-|         Output          |                        Description                        |
-| :---------------------: | :-------------------------------------------------------: |
-|        `aarch64`        | Boolean if the add-on support the `aarch64` architecture. |
-|         `amd64`         |  Boolean if the add-on support the `amd64` architecture.  |
-|     `architectures`     |      List of supported architectures by this add-on.      |
-|         `armhf`         |  Boolean if the add-on support the `armhf` architecture.  |
-|         `build`         |    File location of the build.json configuration file.    |
-|        `config`         |  File location of the add-on config.json configuration.   |
-|      `description`      |                Description of the add-on.                 |
-|         `i386`          |  Boolean if the add-on support the `i386` architecture.   |
-|         `name`          |                  The name of the add-on.                  |
-|         `slug`          |                The configured add-on slug.                |
-|        `target`         |                 The add-on target folder.                 |
-|         `image`         |             The Image-template of the add-on.             |
-|        `version`        |                The version of the add-on.                 |
-|         `armv7`         |  Boolean if the add-on support the `armv7` architecture.  |
+|     Output      |                        Description                        |
+| :-------------: | :-------------------------------------------------------: |
+|    `aarch64`    | Boolean if the add-on support the `aarch64` architecture. |
+|     `amd64`     |  Boolean if the add-on support the `amd64` architecture.  |
+| `architectures` |      List of supported architectures by this add-on.      |
+|     `armhf`     |  Boolean if the add-on support the `armhf` architecture.  |
+|     `build`     |    File location of the build.json configuration file.    |
+|    `config`     |  File location of the add-on config.json configuration.   |
+|  `description`  |                Description of the add-on.                 |
+|     `i386`      |  Boolean if the add-on support the `i386` architecture.   |
+|     `name`      |                  The name of the add-on.                  |
+|     `slug`      |                The configured add-on slug.                |
+|    `target`     |                 The add-on target folder.                 |
+|     `image`     |             The Image-template of the add-on.             |
+|    `version`    |                The version of the add-on.                 |
+|     `armv7`     |  Boolean if the add-on support the `armv7` architecture.  |
 
 ## Changelog & Releases
 
