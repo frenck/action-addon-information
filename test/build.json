@@ -1,13 +1,6 @@
 {
   "build_from": {
     "aarch64": "fake/base:1.0.0",
-    "amd64": "fake/base:1.0.0",
-    "armhf": "fake/base:1.0.0",
-    "armv7": "fake/base:1.0.0",
-    "i386": "fake/base:1.0.0"
-  },
-  "codenotary": {
-    "signer": "signer@example.com",
-    "base_image": "base_image@example.com"
+    "amd64": "fake/base:1.0.0"
   }
 }
