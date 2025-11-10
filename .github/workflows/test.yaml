@@ -49,16 +49,6 @@ jobs:
             exit 1;
           fi
 
-          if [[ "${{ steps.information.outputs.codenotary_base_image }}" != "base_image@example.com" ]]; then
-            echo "::error ::'codenotary_base_image' does not have the expected value"
-            exit 1;
-          fi
-
-          if [[ "${{ steps.information.outputs.codenotary_signer }}" != "signer@example.com" ]]; then
-            echo "::error ::'codenotary_signer' does not have the expected value"
-            exit 1;
-          fi
-
           if [[ "${{ steps.information.outputs.config }}" != "test/config.yaml" ]]; then
             echo "::error ::'config' does not have the expected value"
             exit 1;
