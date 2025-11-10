@@ -69,8 +69,6 @@ The Action provides the following information as output:
 |     `architectures`     |      List of supported architectures by this add-on.      |
 |         `armhf`         |  Boolean if the add-on support the `armhf` architecture.  |
 |         `build`         |    File location of the build.json configuration file.    |
-| `codenotary_base_image` |             Verify the base container image.              |
-|   `codenotary_signer`   |        Owner signer E-Mail address for this image.        |
 |        `config`         |  File location of the add-on config.json configuration.   |
 |      `description`      |                Description of the add-on.                 |
 |         `i386`          |  Boolean if the add-on support the `i386` architecture.   |
