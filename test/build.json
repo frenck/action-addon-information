@@ -5,9 +5,5 @@
     "armhf": "fake/base:1.0.0",
     "armv7": "fake/base:1.0.0",
     "i386": "fake/base:1.0.0"
-  },
-  "codenotary": {
-    "signer": "signer@example.com",
-    "base_image": "base_image@example.com"
   }
 }
