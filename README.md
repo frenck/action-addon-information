@@ -68,8 +68,6 @@ The Action provides the following information as output:
 |         `amd64`         |  Boolean if the add-on support the `amd64` architecture.  |
 |     `architectures`     |      List of supported architectures by this add-on.      |
 |         `build`         |    File location of the build.json configuration file.    |
-| `codenotary_base_image` |             Verify the base container image.              |
-|   `codenotary_signer`   |        Owner signer E-Mail address for this image.        |
 |        `config`         |  File location of the add-on config.json configuration.   |
 |      `description`      |                Description of the add-on.                 |
 |         `name`          |                  The name of the add-on.                  |
@@ -169,7 +167,7 @@ check [the contributors page][contributors].
 
 MIT License
 
-Copyright (c) 2021-2023 Franck Nijhof
+Copyright (c) 2021-2025 Franck Nijhof
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -194,7 +192,7 @@ SOFTWARE.
 [github-sponsors-shield]: https://frenck.dev/wp-content/uploads/2019/12/github_sponsor.png
 [github-sponsors]: https://github.com/sponsors/frenck
 [license-shield]: https://img.shields.io/github/license/frenck/action-addon-information.svg
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2025.svg
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-production%20ready-brightgreen.svg
 [releases-shield]: https://img.shields.io/github/release/frenck/action-addon-information.svg
 [releases]: https://github.com/frenck/action-addon-information/releases
