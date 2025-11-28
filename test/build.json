@@ -1,6 +1,6 @@
 {
   "build_from": {
     "aarch64": "fake/base:1.0.0",
-    "amd64": "fake/base:1.0.0" main
+    "amd64": "fake/base:1.0.0"
   }
 }
